@@ -1,4 +1,443 @@
-<!doctype html>
+<!doctype html>From 747fd71b99880fc5b9409286e53c09c712e31472 Mon Sep 17 00:00:00 2001
+From: Michelle Strong <michelle.strong2@hotmail.co.uk>
+Date: Sat, 1 Aug 2026 09:44:55 +0000
+Subject: [PATCH] M6: generate final pitch deck from M1-M6 artifacts
+
+---
+ 06-culture/lab-2-final-pitch.html | 416 +++++++++++++++++++++++++++++-
+ 1 file changed, 402 insertions(+), 14 deletions(-)
+
+diff --git a/06-culture/lab-2-final-pitch.html b/06-culture/lab-2-final-pitch.html
+index 4b37107..d038b54 100644
+--- a/06-culture/lab-2-final-pitch.html
++++ b/06-culture/lab-2-final-pitch.html
+@@ -1,22 +1,410 @@
+ <!doctype html>
+ <html lang="en">
+ <head>
+-  <meta charset="utf-8" />
+-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+-  <title>Final Pitch Deck — placeholder</title>
+-  <style>
+-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#07162C; color:#e8eefc; margin:0; display:grid; place-items:center; min-height:100vh; }
+-    .card { max-width:640px; padding:40px; line-height:1.6; }
+-    h1 { font-size:22px; margin:0 0 12px; }
+-    code { background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px; font-size:13px; }
+-    a { color:#8ec5ff; }
+-  </style>
++<meta charset="utf-8" />
++<meta name="viewport" content="width=device-width, initial-scale=1" />
++<title>Ascend IQ — Evaluation Ledger &amp; Ship/Hold Certificate</title>
++<link rel="preconnect" href="https://fonts.googleapis.com">
++<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
++<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
++<style>
++  :root{
++    --ink:#12213A;
++    --paper:#EEEBE1;
++    --paper-2:#F7F5EE;
++    --stamp-red:#A3392C;
++    --ledger-green:#2F6F4E;
++    --gold:#B8912B;
++    --slate:#5B6B82;
++    --line: rgba(18,33,58,0.16);
++    --serif: "Newsreader", Georgia, serif;
++    --sans: "IBM Plex Sans", -apple-system, sans-serif;
++    --mono: "IBM Plex Mono", Menlo, monospace;
++  }
++  *{box-sizing:border-box;}
++  html{scroll-behavior:smooth;}
++  body{
++    margin:0; background:var(--paper); color:var(--ink);
++    font-family:var(--sans); line-height:1.5; font-size:16px;
++  }
++  @media (prefers-reduced-motion: reduce){
++    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
++  }
++
++  .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
++  .eyebrow{
++    font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
++    color:var(--slate);
++  }
++  .rule{border:none; border-top:1px solid var(--line); margin:0;}
++
++  /* ---------- HERO ---------- */
++  .hero{
++    background:var(--ink); color:var(--paper-2);
++    padding:72px 0 56px; position:relative; overflow:hidden;
++  }
++  .hero .wrap{position:relative; z-index:2;}
++  .hero-top{
++    display:flex; justify-content:space-between; align-items:flex-start; gap:24px;
++    font-family:var(--mono); font-size:12px; color:#9FB0C8; letter-spacing:0.04em;
++  }
++  .hero h1{
++    font-family:var(--serif); font-weight:500; font-size:clamp(34px,5vw,54px);
++    margin:22px 0 10px; letter-spacing:-0.01em; max-width:640px;
++  }
++  .hero .sub{
++    font-size:17px; color:#C7D2E3; max-width:520px; margin:0 0 40px;
++  }
++  .hero-grid{
++    display:grid; grid-template-columns:1fr auto; gap:32px; align-items:end;
++  }
++  .to-from{font-family:var(--mono); font-size:13px; color:#C7D2E3; line-height:1.9;}
++  .to-from b{color:var(--paper-2); font-weight:500;}
++
++  .stamp{
++    width:172px; height:172px; border:3px solid var(--stamp-red); border-radius:50%;
++    display:flex; align-items:center; justify-content:center; flex-shrink:0;
++    transform:rotate(-11deg) scale(1); color:var(--stamp-red);
++    font-family:var(--serif); font-weight:600; text-align:center;
++    animation:stampdown 700ms cubic-bezier(.2,1.6,.4,1) 200ms both;
++    background:radial-gradient(circle at 50% 45%, rgba(163,57,44,0.06), transparent 70%);
++  }
++  .stamp .inner{border:1px solid var(--stamp-red); border-radius:50%; width:150px; height:150px; display:flex; align-items:center; justify-content:center; flex-direction:column;}
++  .stamp .verdict{font-size:30px; letter-spacing:0.06em;}
++  .stamp .date{font-family:var(--mono); font-size:10px; letter-spacing:0.1em; margin-top:6px; text-transform:uppercase;}
++  @keyframes stampdown{
++    0%{opacity:0; transform:rotate(-11deg) scale(2.2);}
++    60%{opacity:1;}
++    100%{opacity:1; transform:rotate(-11deg) scale(1);}
++  }
++
++  /* ---------- SECTION SCAFFOLD ---------- */
++  section{padding:56px 0;}
++  section + section{border-top:1px solid var(--line);}
++  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:28px;}
++  .sec-num{font-family:var(--mono); font-size:13px; color:var(--gold); letter-spacing:0.08em;}
++  .sec-head h2{font-family:var(--serif); font-weight:500; font-size:28px; margin:0;}
++  .sec-head .mod{margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--slate); text-align:right;}
++
++  .lede{font-size:16px; color:#2B3B57; max-width:680px; margin:0 0 22px;}
++  .lede b{color:var(--ink);}
++
++  /* ledger row component — reused across M2/M3/M4/M6 evidence */
++  .ledger{border-top:1px solid var(--line);}
++  .lrow{
++    display:grid; grid-template-columns: 26px 1.7fr 1fr 1fr 96px; gap:14px; align-items:center;
++    padding:13px 0; border-bottom:1px solid var(--line);
++    font-size:14px;
++    opacity:0; transform:translateY(8px);
++    animation:rise 500ms ease forwards;
++  }
++  .lrow:nth-child(1){animation-delay:.02s;} .lrow:nth-child(2){animation-delay:.08s;}
++  .lrow:nth-child(3){animation-delay:.14s;} .lrow:nth-child(4){animation-delay:.20s;}
++  .lrow:nth-child(5){animation-delay:.26s;}
++  @keyframes rise{to{opacity:1; transform:translateY(0);}}
++  .lrow .idx{font-family:var(--mono); color:var(--slate); font-size:12px;}
++  .lrow .metric{font-weight:500;}
++  .lrow .metric .src{display:block; font-family:var(--mono); font-size:11px; color:var(--slate); font-weight:400; margin-top:2px;}
++  .lrow .result{font-family:var(--mono); font-size:13px;}
++  .lrow .bar{font-family:var(--mono); font-size:13px; color:var(--slate);}
++  .status{
++    font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-align:center;
++    padding:4px 8px; border-radius:3px; justify-self:start;
++  }
++  .status.fail{background:rgba(163,57,44,0.1); color:var(--stamp-red); border:1px solid rgba(163,57,44,0.3);}
++  .status.pass{background:rgba(47,111,78,0.1); color:var(--ledger-green); border:1px solid rgba(47,111,78,0.3);}
++  .status.pending{background:rgba(91,107,130,0.1); color:var(--slate); border:1px solid rgba(91,107,130,0.3);}
++  @media(max-width:640px){
++    .lrow{grid-template-columns: 20px 1fr; grid-template-areas:"idx metric" ". result" ". bar" ". status";}
++    .lrow .result,.lrow .bar,.status{justify-self:start;}
++  }
++
++  /* two-col cards */
++  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:24px 0;}
++  @media(max-width:760px){.cards{grid-template-columns:1fr;}}
++  .card{border:1px solid var(--line); background:var(--paper-2); padding:20px 20px 22px; border-radius:2px;}
++  .card .k{font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--slate); margin-bottom:8px;}
++  .card p{margin:0; font-size:14.5px;}
++  .card .why{margin-top:10px; font-size:13px; color:var(--slate); border-top:1px dashed var(--line); padding-top:10px;}
++
++  .pillar{margin-bottom:22px; padding-left:20px; border-left:2px solid var(--gold);}
++  .pillar h3{font-family:var(--serif); font-weight:500; font-size:19px; margin:0 0 6px;}
++  .pillar p{margin:0; font-size:14.5px; color:#2B3B57;}
++
++  .split{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:24px 0;}
++  @media(max-width:700px){.split{grid-template-columns:1fr;}}
++  .risk-block{padding:18px 20px; border-radius:2px;}
++  .risk-block.ship{background:rgba(163,57,44,0.06); border:1px solid rgba(163,57,44,0.25);}
++  .risk-block.hold{background:rgba(47,111,78,0.06); border:1px solid rgba(47,111,78,0.25);}
++  .risk-block h4{margin:0 0 8px; font-family:var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase;}
++  .risk-block.ship h4{color:var(--stamp-red);}
++  .risk-block.hold h4{color:var(--ledger-green);}
++  .risk-block p{margin:0; font-size:14px;}
++
++  .big-number{font-family:var(--serif); font-size:56px; color:var(--gold); line-height:1;}
++  .big-number .label{display:block; font-family:var(--mono); font-size:12px; color:var(--slate); letter-spacing:0.06em; text-transform:uppercase; margin-top:8px;}
++
++  .ask{background:var(--ink); color:var(--paper-2); padding:30px 28px; border-radius:2px; margin-top:24px;}
++  .ask h4{font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin:0 0 14px;}
++  .ask ol{margin:0; padding-left:20px;}
++  .ask li{margin-bottom:8px; font-size:15px;}
++  .ask .deadline{font-family:var(--mono); color:#F0DFA0; font-weight:600;}
++
++  .reflection{
++    font-family:var(--serif); font-style:italic; font-size:19px; line-height:1.6; color:var(--ink);
++    max-width:680px; padding:26px 0 0; border-top:1px solid var(--line); margin-top:30px;
++  }
++  .reflection cite{display:block; font-style:normal; font-family:var(--mono); font-size:12px; color:var(--slate); margin-top:14px;}
++
++  footer{padding:40px 0 60px; font-family:var(--mono); font-size:12px; color:var(--slate);}
++  footer a{color:var(--ink);}
++
++  .tag{display:inline-block; font-family:var(--mono); font-size:10.5px; padding:2px 7px; border:1px solid var(--line); border-radius:2px; margin-right:6px; color:var(--slate);}
++</style>
+ </head>
+ <body>
+-  <div class="card">
+-    <h1>Replace this file with your generated pitch deck.</h1>
+-    <p>This is a placeholder. In <strong>Module 6</strong>, use the <em>Final Pitch Prompt Generator</em> to assemble every M1–M5 artifact plus your Ship/Hold memo into a single prompt, paste it into ChatGPT / Claude / Gemini, and save the returned HTML deck here as <code>06-culture/lab-2-final-pitch.html</code>.</p>
+-    <p>Then submit this deck plus your repo URL to the LMS within 7 days of your cohort ending.</p>
++
++<header class="hero">
++  <div class="wrap">
++    <div class="hero-top">
++      <span>ASCEND ANALYTICS · INTERNAL EVALUATION LEDGER</span>
++      <span>FILE NO. AIQ-M6-2026</span>
++    </div>
++    <h1>Ascend IQ — Ship/Hold Certificate</h1>
++    <p class="sub">The complete evidence trail, Modules 1 through 6: strategy, failure discovery, eval suite, gates, coverage at scale, and the final call.</p>
++    <div class="hero-grid">
++      <div class="to-from">
++        <div><b>To:</b> CPO</div>
++        <div><b>From:</b> Michelle Strong, PM</div>
++        <div><b>Re:</b> Enterprise release — Ascend IQ</div>
++      </div>
++      <div class="stamp">
++        <div class="inner">
++          <div class="verdict">HOLD</div>
++          <div class="date">DECISION BY AUG 1</div>
++        </div>
++      </div>
++    </div>
+   </div>
++</header>
++
++<!-- M1 -->
++<section id="m1">
++  <div class="wrap">
++    <div class="sec-head">
++      <span class="sec-num">01</span>
++      <h2>Strategy Canvas</h2>
++      <span class="mod">MODULE 1</span>
++    </div>
++    <p class="lede">Ascend IQ sells <b>verified</b> competitive intelligence to VP-level Enterprise strategists — high-paying, low-patience, high-scrutiny buyers who pay a premium precisely because the answer is supposed to be trustworthy.</p>
++    <div class="cards">
++      <div class="card">
++        <div class="k">Trust metric 01</div>
++        <p><b>Hallucination rate</b> — % of outputs confidently false or fabricated.</p>
++        <div class="why">VP clients pay $50k+ for verified data; one fabricated stat ends the contract.</div>
++      </div>
++      <div class="card">
++        <div class="k">Trust metric 02</div>
++        <p><b>Latency</b> — response speed, P95 / P99.</p>
++        <div class="why">Under 5s is the only thing that beats manual digging.</div>
++      </div>
++      <div class="card">
++        <div class="k">Trust metric 03</div>
++        <p><b>Fairness</b> — quality consistency across users, geos, languages.</p>
++        <div class="why">Consistent quality across EN/DE/FR underpins the European expansion.</div>
++      </div>
++    </div>
++    <p class="lede" style="margin-top:6px;">"Good enough to ship" bar: <b>&gt;97%</b> claims fully source-supported · fairness within <b>5%</b> of baseline · <b>P95&lt;5s / P99&lt;8s</b> · zero safety/leakage incidents.</p>
++  </div>
++</section>
++
++<!-- M2 -->
++<section id="m2">
++  <div class="wrap">
++    <div class="sec-head">
++      <span class="sec-num">02</span>
++      <h2>Failure Taxonomy</h2>
++      <span class="mod">MODULE 2 · 20-ROW AUDIT</span>
++    </div>
++    <p class="lede">Auditing real Ascend IQ beta outputs surfaced three priority failures — ranked on business consequence, not just how often they occur.</p>
++    <div class="ledger">
++      <div class="lrow">
++        <span class="idx">01</span>
++        <span class="metric">Fabricated Enterprise pricing<span class="src">#HALLUCINATION · Freq 5 (High) · audit-log.md</span></span>
++        <span class="result">P0</span>
++        <span class="bar">Contract / compliance exposure</span>
++        <span class="status fail">RANK #1</span>
++      </div>
++      <div class="lrow">
++        <span class="idx">02</span>
++        <span class="metric">Off-tone cold email draft<span class="src">#ROBUSTNESS · Freq 4 (High) · audit-log.md</span></span>
++        <span class="result">P2</span>
++        <span class="bar">Unprofessional slang, brand mismatch</span>
++        <span class="status pending">RANK #2</span>
++      </div>
++      <div class="lrow">
++        <span class="idx">03</span>
++        <span class="metric">Misleading feature claim<span class="src">#HALLUCINATION · Freq 5 (High) · audit-log.md</span></span>
++        <span class="result">P1</span>
++        <span class="bar">Erodes trust in Ascend Analytics</span>
++        <span class="status fail">RANK #3</span>
++      </div>
++    </div>
++    <p class="lede" style="margin-top:20px;">Root-cause hypothesis: the top failure modes trace to <b>retrieval and data-freshness infrastructure</b>, not prompt quality — meaning no amount of prompt tuning fixes what the evals are actually catching.</p>
++  </div>
++</section>
++
++<!-- M3 -->
++<section id="m3">
++  <div class="wrap">
++    <div class="sec-head">
++      <span class="sec-num">03</span>
++      <h2>Eval Suite Results</h2>
++      <span class="mod">MODULE 3</span>
++    </div>
++    <p class="lede">The #1 failure — stale/fabricated pricing — was written into a hard eval spec at a <b>100% accuracy bar</b> (Safety First strategy: this is a P0 contract-liability failure mode). Current status:</p>
++    <div class="ledger">
++      <div class="lrow">
++        <span class="idx">01</span>
++        <span class="metric">Pricing hallucination — code check<span class="src">Layer 1 · lab-1-eval-suite.md</span></span>
++        <span class="result">0 / required</span>
++        <span class="bar">100% accuracy</span>
++        <span class="status fail">FAIL</span>
++      </div>
++      <div class="lrow">
++        <span class="idx">02</span>
++        <span class="metric">Pricing hallucination — LLM judge<span class="src">Layer 3 · lab-1-eval-suite.md</span></span>
++        <span class="result">0 / required</span>
++        <span class="bar">100% accuracy</span>
++        <span class="status fail">FAIL</span>
++      </div>
++      <div class="lrow">
++        <span class="idx">03</span>
++        <span class="metric">Legal / compliance check<span class="src">Layer 2 · lab-1-eval-suite.md</span></span>
++        <span class="result">Passed</span>
++        <span class="bar">Compliance criteria</span>
++        <span class="status pass">PASS</span>
++      </div>
++    </div>
++  </div>
++</section>
++
++<!-- M4 -->
++<section id="m4">
++  <div class="wrap">
++    <div class="sec-head">
++      <span class="sec-num">04</span>
++      <h2>Eval Gates &amp; Launch Strategy</h2>
++      <span class="mod">MODULE 4</span>
++    </div>
++    <p class="lede">Release criteria for Model Candidate v1.x, and the rollout lever if a soft gate trips.</p>
++    <div class="ledger">
++      <div class="lrow">
++        <span class="idx">🔴</span>
++        <span class="metric">Hallucination — stale pricing<span class="src">Hard / Blocker · Ascend_IQ_Logs</span></span>
++        <span class="result">Failing</span>
++        <span class="bar">= 0% required</span>
++        <span class="status fail">BLOCKS MERGE</span>
++      </div>
++      <div class="lrow">
++        <span class="idx">🟡</span>
++        <span class="metric">Latency (P95)<span class="src">Soft / Review · Ascend_IQ_Logs</span></span>
++        <span class="result">4.2s</span>
++        <span class="bar">&lt; 2.0s target</span>
++        <span class="status fail">WARN, NO BLOCK</span>
++      </div>
++      <div class="lrow">
++        <span class="idx">🔵</span>
++        <span class="metric">Tone consistency<span class="src">Advisory / Monitor · Ascend_IQ_Logs</span></span>
++        <span class="result">Monitored</span>
++        <span class="bar">&gt; 4.0 / 5</span>
++        <span class="status pending">TRACKING</span>
++      </div>
++    </div>
++    <p class="lede" style="margin-top:20px;">Soft-gate mitigation lever selected: <b>Beta Labeling</b> — limits latency impact to beta users while production drift data is collected, ahead of committing to a hard latency budget for everyone.</p>
++  </div>
++</section>
++
++<!-- M5 -->
++<section id="m5">
++  <div class="wrap">
++    <div class="sec-head">
++      <span class="sec-num">05</span>
++      <h2>Coverage &amp; Budget at Scale</h2>
++      <span class="mod">MODULE 5</span>
++    </div>
++    <div class="split">
++      <div>
++        <p class="lede" style="margin-bottom:14px;">Coverage: hallucination and bias are instrumented; latency is an <b>accepted gap</b> (low safety impact for a summaries product); toxicity is a <b>critical gap</b> — no validated instrument exists yet.</p>
++        <span class="tag">Hallucination ✅</span><span class="tag">Bias ✅</span><span class="tag">Latency ❌ accepted</span><span class="tag">Toxicity ❌ critical</span>
++      </div>
++      <div>
++        <div class="big-number">$155k<span class="label">of $200k quarterly cap · L3 evals</span></div>
++        <p class="lede" style="margin-top:10px; font-size:13.5px;">2 of 3 Level-3 slots committed: Data Fabrication ($85k, P0) and Context Specificity ($70k, P1) — the two failure modes tied directly to the pricing hallucination gate above.</p>
++      </div>
++    </div>
++  </div>
++</section>
++
++<!-- M6 -->
++<section id="m6">
++  <div class="wrap">
++    <div class="sec-head">
++      <span class="sec-num">06</span>
++      <h2>The Call</h2>
++      <span class="mod">MODULE 6 · SHIP / HOLD</span>
++    </div>
++
++    <p class="lede" style="font-size:17.5px; color:var(--ink);"><b>Recommendation: HOLD</b> Ascend IQ to enterprise customers in the next sprint, contingent on the documented mitigation plan, to protect <b>$4.2M</b> in at-risk renewal revenue.</p>
++
++    <div class="pillar">
++      <h3>1. Product Integrity</h3>
++      <p>The core "verified intelligence" promise is broken — Ascend IQ fabricates pricing, invents unconfirmed facts, and misrepresents competitor specs, the exact failures that make "verified" a false claim.</p>
++    </div>
++    <div class="pillar">
++      <h3>2. Business Risk</h3>
++      <p>$4.2M in enterprise renewal revenue is directly exposed — quoting incorrect pricing to enterprise buyers creates contract / revenue-recognition liability and reputational risk with the exact VP audience this product is built for.</p>
++    </div>
++    <div class="pillar">
++      <h3>3. Eval Readiness</h3>
++      <p>The pricing hallucination check is a Hard gate at a 100% threshold and it is currently failing. There is no shadow-launch or partial-rollout option until it clears.</p>
++    </div>
++
++    <div class="split" style="margin-top:32px;">
++      <div class="risk-block ship">
++        <h4>Ship-path risk</h4>
++        <p>A single fabricated figure cited externally by a customer could turn a product bug into a legal or trust incident — directly threatening the $4.2M this release is meant to protect.</p>
++      </div>
++      <div class="risk-block hold">
++        <h4>Hold-path risk</h4>
++        <p>Lost competitive window and momentum, and a real but bounded and recoverable cost — unlike a mispriced quote reaching a live enterprise contract.</p>
++      </div>
++    </div>
++
++    <div class="ask">
++      <h4>Decision needed from the CPO — by <span class="deadline">August 1</span></h4>
++      <ol>
++        <li>Approve the HOLD on Ascend IQ's enterprise release for the next sprint.</li>
++        <li>Approve resourcing for the remediation team to close the pricing hallucination gate.</li>
++        <li>Go/no-go review on <b>August 1</b>, based on the reopen conditions in the full memo.</li>
++      </ol>
++    </div>
++
++    <blockquote class="reflection">
++      "The real shift for me was continuing to ensure I framed the business outcomes alongside the metrics — a passing eval only earns its weight in the room once it's tied to what it actually costs or protects for the business."
++      <cite>— Reflection, Ship/Hold Memo · 06-culture/lab-1-ship-hold-memo.md</cite>
++    </blockquote>
++  </div>
++</section>
++
++<footer>
++  <div class="wrap">
++    <hr class="rule" style="margin-bottom:20px;">
++    Full evidence memo: <a href="https://github.com/Michelle-Strong/AI-Evals/blob/main/06-culture/lab-1-ship-hold-memo.md">06-culture/lab-1-ship-hold-memo.md</a> ·
++    Repo: <a href="https://github.com/Michelle-Strong/AI-Evals">Michelle-Strong/AI-Evals</a><br>
++    Product School · AI Evals Certification · M6 Capstone
++  </div>
++</footer>
++
+ </body>
+ </html>
+-- 
+2.43.0
 <html lang="en">
 <head>
   <meta charset="utf-8" />
